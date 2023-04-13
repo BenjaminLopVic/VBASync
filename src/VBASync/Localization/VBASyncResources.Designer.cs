@@ -79,7 +79,7 @@ namespace VBASync.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Copyright © {0} Chelsea Hughes. See {1} for more details..
+        ///   Recherche une chaîne localisée semblable à Initial project byt Chelsea Hughes..
         /// </summary>
         public static string AWCopyright {
             get {
@@ -115,7 +115,7 @@ namespace VBASync.Localization {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Visit {0} for support..
+        ///   Recherche une chaîne localisée semblable à GitHub {0}.
         /// </summary>
         public static string AWWebsite {
             get {
