@@ -1,4 +1,4 @@
-**This is a fork of [Chelh/VBASync](https://github.com/chelh/VBASync)
+**This is a fork of [Chelh/VBASync](https://github.com/chelh/VBASync)**
 
 # VBA Sync&#x2001;![VBA Sync logo](http://i.imgur.com/sQAsBy4.png)
 
