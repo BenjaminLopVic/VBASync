@@ -132,10 +132,8 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Target Name="BuildSecondProject" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	<MSBuild Projects="../VBASync.WPF/VBASync.WPF.csproj" />
-  </Target>
   <Target Name="CopyVBASyncWPF" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<MSBuild Projects="../VBASync.WPF/VBASync.WPF.csproj" />
 	<Copy SourceFiles="../VBASync.WPF/bin/Debug/VBASync.WPF.dll" DestinationFolder="$(TargetDir)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
