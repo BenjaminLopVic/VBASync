@@ -1,5 +1,5 @@
 #define MyAppName "VBA Sync Tool"
-#define MyAppVersion "2.2.0"
+#define MyAppVersion "2.2.1"
 #define MyAppPublisher "Chelsea Hughes"
 #define MyAppURL "https://github.com/chelh/VBASync"
 #define MyAppExeName "VBASync.exe"
@@ -16,7 +16,6 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=C:\Users\Chel\Documents\VBA Sync Tool\LICENSE.rtf
 OutputBaseFilename=Install {#MyAppName} {#MyAppVersion}
 OutputDir=dist
 Compression=lzma
