@@ -15,7 +15,7 @@ namespace VBASync.WPF
             InitializeComponent();
 
             VersionLabel.Content = ((string)VersionLabel.Content).Replace("{0}",
-                MainWindow.Version.ToString());
+                MainWindow.Version);
 
             var exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var copyrightText = VBASyncResources.AWCopyright

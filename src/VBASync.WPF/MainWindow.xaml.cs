@@ -8,18 +8,21 @@ using System.Windows.Input;
 using VBASync.Localization;
 using VBASync.Model;
 
-namespace VBASync.WPF {
-    internal sealed partial class MainWindow : IDisposable {
+namespace VBASync.WPF
+{
+    internal sealed partial class MainWindow : IDisposable
+    {
         internal const int CopyrightYear = 2017;
         internal const string SupportUrl = "https://github.com/chelh/VBASync";
 
-        internal static readonly Version Version = new Version(2, 2, 0);
+        //internal static readonly Version Version = new Version(2, 2, 0);
 
         private readonly MainViewModel _vm;
 
         private bool _doUpdateIncludeAll = true;
 
-        public MainWindow(Startup startup) {
+        public MainWindow(Startup startup)
+        {
             InitializeComponent();
 
             DataContext = _vm = new MainViewModel(startup, QuietRefreshIfInputsOk);
@@ -33,6 +36,16 @@ namespace VBASync.WPF {
             SessionCtl.FolderBrowseBox.LostFocus += (s, e) => QuietRefreshIfInputsOk();
             SessionCtl.FileBrowseBox.Drop += (s, e) => QuietRefreshIfInputsOk();
             SessionCtl.FolderBrowseBox.Drop += (s, e) => QuietRefreshIfInputsOk();
+        }
+
+        public static string Version
+        {
+            get
+            {
+                Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return $"{fvi.FileMajorPart}.{fvi.ProductMinorPart}.{fvi.FileBuildPart}";
+            }
         }
 
         private ISession Session => _vm.Session;
@@ -66,18 +79,23 @@ namespace VBASync.WPF {
             QuietRefreshIfInputsOk();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e) {
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
             Application.Current.Shutdown();
         }
 
-        private void ChangesGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        private void ChangesGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
             var sel = (Patch)ChangesGrid.SelectedItem;
             ILocateModules oldModuleLocator;
             ILocateModules newModuleLocator;
-            if (Session.Action == ActionType.Extract) {
+            if (Session.Action == ActionType.Extract)
+            {
                 oldModuleLocator = _vm.ActiveSession.TemporaryFolderModuleLocator;
                 newModuleLocator = _vm.ActiveSession.RepositoryFolderModuleLocator;
-            } else {
+            }
+            else
+            {
                 oldModuleLocator = _vm.ActiveSession.RepositoryFolderModuleLocator;
                 newModuleLocator = _vm.ActiveSession.TemporaryFolderModuleLocator;
             }
@@ -93,16 +111,22 @@ namespace VBASync.WPF {
                 oldPath = oldModuleLocator.GetModulePath(sel.ModuleName, sel.ModuleType);
                 newPath = newModuleLocator.GetModulePath(sel.ModuleName, sel.ModuleType);
             }
-            if (sel.ChangeType == ChangeType.ChangeFormControls) {
+            if (sel.ChangeType == ChangeType.ChangeFormControls)
+            {
                 Lib.FrxFilesAreDifferent(oldPath, newPath, out var explain);
                 MessageBox.Show(explain, VBASyncResources.ExplainFrxTitle, MessageBoxButton.OK, MessageBoxImage.Information);
-            } else {
+            }
+            else
+            {
                 var diffExePath = Environment.ExpandEnvironmentVariables(_vm.Settings.DiffTool);
-                if (!File.Exists(oldPath) || !File.Exists(newPath) || !File.Exists(diffExePath)) {
+                if (!File.Exists(oldPath) || !File.Exists(newPath) || !File.Exists(diffExePath))
+                {
                     return;
                 }
-                var p = new Process {
-                    StartInfo = new ProcessStartInfo(diffExePath, _vm.Settings.DiffToolParameters.Replace("{OldFile}", oldPath).Replace("{NewFile}", newPath)) {
+                var p = new Process
+                {
+                    StartInfo = new ProcessStartInfo(diffExePath, _vm.Settings.DiffToolParameters.Replace("{OldFile}", oldPath).Replace("{NewFile}", newPath))
+                    {
                         UseShellExecute = false
                     }
                 };
@@ -144,48 +168,61 @@ namespace VBASync.WPF {
             bool FileOrFolderExistsOrIsRooted(string path) => FileOrFolderExists(path) || Path.IsPathRooted(path);
         }
 
-        private void ExitMenu_Click(object sender, RoutedEventArgs e) {
+        private void ExitMenu_Click(object sender, RoutedEventArgs e)
+        {
             CancelButton_Click(null, null);
         }
 
         private void IncludeAllBox_Click(object sender, RoutedEventArgs e)
         {
             var vm = _vm.Changes;
-            if (vm == null || IncludeAllBox.IsChecked == null) {
+            if (vm == null || IncludeAllBox.IsChecked == null)
+            {
                 return;
             }
-            try {
+            try
+            {
                 _doUpdateIncludeAll = false;
-                foreach (var ch in vm) {
+                foreach (var ch in vm)
+                {
                     ch.Commit = IncludeAllBox.IsChecked.Value;
                 }
-            } finally {
+            }
+            finally
+            {
                 _doUpdateIncludeAll = true;
             }
             ChangesGrid.Items.Refresh();
         }
 
-        private void OkButton_Click(object sender, RoutedEventArgs e) {
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
             ApplyButton_Click(null, null);
             Application.Current.Shutdown();
         }
 
-        private void QuietRefreshIfInputsOk() {
+        private void QuietRefreshIfInputsOk()
+        {
             CheckAndFixErrors();
-            if (SessionCtl.DataValidationFaulted) {
+            if (SessionCtl.DataValidationFaulted)
+            {
                 _vm.Changes = null;
                 ApplyButton.IsEnabled = false;
                 return;
             }
-            try {
+            try
+            {
                 RefreshButton_Click(null, null);
-            } catch {
+            }
+            catch
+            {
                 _vm.Changes = null;
                 ApplyButton.IsEnabled = false;
             }
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e) {
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
             try
             {
                 CheckAndFixErrors();
@@ -210,21 +247,29 @@ namespace VBASync.WPF {
             }
         }
 
-        private void UpdateIncludeAllBox() {
-            if (!_doUpdateIncludeAll) {
+        private void UpdateIncludeAllBox()
+        {
+            if (!_doUpdateIncludeAll)
+            {
                 return;
             }
             var vm = _vm.Changes;
-            if (vm.All(p => p.Commit)) {
+            if (vm.All(p => p.Commit))
+            {
                 IncludeAllBox.IsChecked = true;
-            } else if (vm.All(p => !p.Commit)) {
+            }
+            else if (vm.All(p => !p.Commit))
+            {
                 IncludeAllBox.IsChecked = false;
-            } else {
+            }
+            else
+            {
                 IncludeAllBox.IsChecked = null;
             }
         }
 
-        private void Window_Closed(object sender, EventArgs e) {
+        private void Window_Closed(object sender, EventArgs e)
+        {
             _vm.ActiveSession?.Dispose();
 
             string lastSessionPath;
@@ -245,10 +290,12 @@ namespace VBASync.WPF {
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             QuietRefreshIfInputsOk();
 
-            if (Session.AutoRun) {
+            if (Session.AutoRun)
+            {
                 OkButton_Click(null, null);
             }
         }
