@@ -1,14 +1,11 @@
+**This is a fork of [Chelh/VBASync](https://github.com/chelh/VBASync)
+
 # VBA Sync&#x2001;![VBA Sync logo](http://i.imgur.com/sQAsBy4.png)
 
 Microsoft Office VBA code is usually held in binary format, making proper
 version control difficult. VBA Sync synchronizes macros between a
 VBA-enabled file and a folder, enabling easy version control using Git, SVN,
 Mercurial, or any other VCS.
-
-**I no longer maintain this project. I have released it into the public domain.**
-
-[**Download my final release (v2.2.0)**](https://github.com/chelh/VBASync/releases/latest)  
-[**Look for a newer version, or advertise your new version**](https://github.com/chelh/VBASync/issues/36)
 
 ## Features
 VBA Sync works *directly with the Office file,* unlike most
@@ -73,15 +70,6 @@ Switch | Meaning
 `-h <hook>` | If `-p` was specified earlier, set the before-publish hook. Else set the after-extract hook.
 
 Any other parameter passed to VBA Sync will be read and parsed as a session `.ini` file.
-
-## Public domain software
-Created 2017 by Chelsea Hughes
-
-Thanks to GitHub user hectorticoli for the French translation.
-
-I release all rights to this work. You may use it for any purpose, and alter
-and redistribute it freely. If you use this in another product, credit would
-be appreciated but is not required.
 
 This software is provided “as-is,” without any express or implied warranty.
 In no event will I or any other contributor be held liable for any damages
