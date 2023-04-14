@@ -15,6 +15,7 @@ namespace VBASync.WPF
         private readonly Action _onLoadIni;
         private readonly string _lastSessionPath;
 
+        private bool _isAvailable = true;
         private Model.ActiveSession _activeSession;
         private ChangesViewModel _changes;
         private SessionViewModel _session;
@@ -68,7 +69,15 @@ namespace VBASync.WPF
             get => _changes;
             set => SetField(ref _changes, value, nameof(Changes));
         }
-
+        public bool IsAvailable
+        {
+            get => _isAvailable;
+            set
+            {
+                _isAvailable = value;
+                OnPropertyChanged(nameof(IsAvailable));
+            }
+        }
         public WpfCommand LoadLastSessionCommand { get; }
         public WpfCommand OpenRecentCommand { get; }
         public BindingList<string> RecentFiles { get; }

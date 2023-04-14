@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using VBASync.Localization;
 using VBASync.Model;
@@ -72,7 +74,6 @@ namespace VBASync.WPF
             }
 
             _vm.ActiveSession.Apply(committedChanges);
-
             QuietRefreshIfInputsOk();
         }
 
@@ -209,7 +210,7 @@ namespace VBASync.WPF
             }
             try
             {
-                RefreshButton_Click(null, null);
+                Refresh();
             }
             catch
             {
@@ -218,30 +219,43 @@ namespace VBASync.WPF
             }
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                CheckAndFixErrors();
-                if (SessionCtl.DataValidationFaulted)
-                {
-                    _vm.Changes = null;
-                    return;
-                }
-                _vm.RefreshActiveSession();
+        private void RefreshButton_Click(object sender, RoutedEventArgs e) => Refresh();
 
-                var changes = new ChangesViewModel(_vm.ActiveSession.GetPatches());
-                _vm.Changes = changes;
-                foreach (var p in changes)
-                {
-                    p.CommitChanged += (s2, e2) => UpdateIncludeAllBox();
-                }
-                UpdateIncludeAllBox();
-            }
-            finally
+        private void Refresh()
+        {
+            progressBar.IsIndeterminate = true;
+            _vm.IsAvailable = false;
+            CheckAndFixErrors();
+            if (SessionCtl.DataValidationFaulted)
             {
-                ApplyButton.IsEnabled = _vm.Changes?.Count > 0;
+                _vm.Changes = null;
+                return;
             }
+            Task.Run(() =>
+            {
+                try
+                {
+                    _vm.RefreshActiveSession();
+                    var changes = new ChangesViewModel(_vm.ActiveSession.GetPatches());
+                    _vm.Changes = changes;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error : " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }).ContinueWith((t) =>
+                Dispatcher.Invoke(() =>
+                {
+                    foreach (var p in _vm.Changes)
+                    {
+                        p.CommitChanged += (s2, e2) => UpdateIncludeAllBox();
+                    }
+                    UpdateIncludeAllBox();
+                    ApplyButton.IsEnabled = _vm.Changes?.Count > 0;
+                    _vm.IsAvailable = true;
+                    progressBar.IsIndeterminate = false;
+                })
+            );
         }
 
         private void UpdateIncludeAllBox()

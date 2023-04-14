@@ -13,7 +13,7 @@ using VBASync.Model;
 
 namespace VBASync.WPF
 {
-    internal partial class SettingsWindow
+    internal partial class SettingsWindow : Window
     {
         private readonly bool _initialized;
         private readonly Action<SettingsViewModel> _replaceSettings;
