@@ -67,6 +67,11 @@ namespace VBASync.Model
             {
                 yield return licensesPatch;
             }
+            var customUIPatch = Lib.GetCustomUIPatch(_so, _session, _tempFolder.FolderPath);
+            if (customUIPatch != null)
+            {
+                yield return customUIPatch;
+            }
         }
 
         private void ApplyPatches(IEnumerable<Patch> patches, VbaFolder source, VbaFolder destination)

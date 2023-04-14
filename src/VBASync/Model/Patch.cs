@@ -23,7 +23,8 @@ namespace VBASync.Model
         WholeFile = 12,
         MoveSub = 13,
         Project = 14,
-        Licenses = 15
+        Licenses = 15,
+        CustomUI = 16
     }
 
     public enum ModuleType
@@ -33,7 +34,8 @@ namespace VBASync.Model
         Class = 2,
         Form = 3,
         Ini = 4,
-        Licenses = 5
+        Licenses = 5,
+        CustomUI = 6
     }
 
     internal struct Chunk
@@ -145,6 +147,20 @@ namespace VBASync.Model
             {
                 var lineDiff = CountStringLines(newText) - CountStringLines(oldText);
                 return new Patch(ModuleType.Ini, "Project", ChangeType.Project,
+                    string.Format(VBASyncResources.CDWholeFile, lineDiff.ToString("+#;-#;—")));
+            }
+        }
+
+        internal static Patch MakeCustomUIChange(string oldText, string newText)
+        {
+            if (oldText == newText)
+            {
+                return null;
+            }
+            else
+            {
+                var lineDiff = CountStringLines(newText) - CountStringLines(oldText);
+                return new Patch(ModuleType.CustomUI, "customUI14", ChangeType.CustomUI,
                     string.Format(VBASyncResources.CDWholeFile, lineDiff.ToString("+#;-#;—")));
             }
         }

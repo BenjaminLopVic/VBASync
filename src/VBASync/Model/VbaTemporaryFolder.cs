@@ -88,6 +88,14 @@ namespace VBASync.Model
                     if (sig.SequenceEqual(new byte[] { 0x50, 0x4b, 0x03, 0x04 }))
                     {
                         var zipFile = new ZipFile(fs);
+                        var custumUIZipEntry = zipFile.Cast<ZipEntry>().FirstOrDefault(e => e.Name.EndsWith("customUI14.xml", StringComparison.InvariantCultureIgnoreCase));
+                        if (custumUIZipEntry != null)
+                        {
+                            using (var reader = new StreamReader(zipFile.GetInputStream(custumUIZipEntry)))
+                            {
+                                File.WriteAllText(Path.Combine(FolderPath, "customUI14.xml"), reader.ReadToEnd());
+                            }
+                        }
                         var zipEntry = zipFile.Cast<ZipEntry>().FirstOrDefault(e => e.Name.EndsWith("vbaProject.bin", StringComparison.InvariantCultureIgnoreCase));
                         if (zipEntry == null)
                         {
@@ -645,6 +653,7 @@ namespace VBASync.Model
                     if (sig.SequenceEqual(new byte[] { 0x50, 0x4b, 0x03, 0x04 }))
                     {
                         var zipFile = new ZipFile(fs);
+                        var custumUIZipEntry = zipFile.Cast<ZipEntry>().FirstOrDefault(e => e.Name.EndsWith("customUI14.xml", StringComparison.InvariantCultureIgnoreCase));
                         var zipEntry = zipFile.Cast<ZipEntry>().FirstOrDefault(e => e.Name.EndsWith("vbaProject.bin", StringComparison.InvariantCultureIgnoreCase));
                         if (zipEntry == null)
                         {
@@ -652,7 +661,12 @@ namespace VBASync.Model
                         }
                         zipFile.BeginUpdate();
                         using (var st = _so.OpenFileForRead(_so.PathCombine(FolderPath, "vbaProject.bin")))
+                        using (var customUi = _so.OpenFileForRead(_so.PathCombine(FolderPath, "customUI14.xml")))
                         {
+                            if (custumUIZipEntry != null)
+                            {
+                                zipFile.Add(new StreamStaticDataSource(customUi), custumUIZipEntry.Name);
+                            }
                             zipFile.Add(new StreamStaticDataSource(st), zipEntry.Name);
                             zipFile.CommitUpdate();
                         }
@@ -795,19 +809,19 @@ namespace VBASync.Model
         {
             switch (mod.Type)
             {
-            case ModuleType.Class:
-            case ModuleType.StaticClass:
-                return "VERSION 1.0 CLASS\r\nBEGIN\r\n  MultiUse = -1  'True\r\nEND\r\n";
-            case ModuleType.Form:
-                var vbFrameLines = enc.GetString(vbaProject.GetStorage(mod.StreamName).GetStream("\x0003VBFrame").GetData())
-                    .Split('\n').Select(s => s.TrimEnd('\r')).ToList();
+                case ModuleType.Class:
+                case ModuleType.StaticClass:
+                    return "VERSION 1.0 CLASS\r\nBEGIN\r\n  MultiUse = -1  'True\r\nEND\r\n";
+                case ModuleType.Form:
+                    var vbFrameLines = enc.GetString(vbaProject.GetStorage(mod.StreamName).GetStream("\x0003VBFrame").GetData())
+                        .Split('\n').Select(s => s.TrimEnd('\r')).ToList();
                     DeleteBlankLinesFromEnd(vbFrameLines);
-                vbFrameLines.Insert(2, $"   OleObjectBlob   =   \"{mod.Name}.frx\":0000");
-                return string.Join("\r\n", vbFrameLines) + "\r\n";
-            case ModuleType.Standard:
-                return "";
-            default:
-                throw new ApplicationException("Unrecognized module type");
+                    vbFrameLines.Insert(2, $"   OleObjectBlob   =   \"{mod.Name}.frx\":0000");
+                    return string.Join("\r\n", vbFrameLines) + "\r\n";
+                case ModuleType.Standard:
+                    return "";
+                default:
+                    throw new ApplicationException("Unrecognized module type");
             }
         }
 
@@ -962,6 +976,8 @@ namespace VBASync.Model
                         return ".ini";
                     case ModuleType.Licenses:
                         return ".bin";
+                    case ModuleType.CustomUI:
+                        return ".xml";
                     default:
                         throw new ArgumentOutOfRangeException(nameof(Type));
                 }

@@ -131,8 +131,10 @@ namespace VBASync.Model
         }
 
         protected string FindModulePath(string name, ModuleType type)
-            => ModuleFilePaths.Find(s => string.Equals(_so.PathGetFileName(s), name + ModuleProcessing.ExtensionFromType(type),
+        {
+            return ModuleFilePaths.Find(s => string.Equals(_so.PathGetFileName(s), name + ModuleProcessing.ExtensionFromType(type),
                 StringComparison.OrdinalIgnoreCase));
+        }
 
         protected virtual List<string> GetModuleFilePaths() => GetModuleFilePaths(false);
 
@@ -145,7 +147,7 @@ namespace VBASync.Model
             {
                 var name = _so.PathGetFileNameWithoutExtension(path);
                 var ext = _so.PathGetExtension(path).ToUpperInvariant();
-                return (ext == ".BAS" || ext == ".CLS" || ext == ".FRM" || ext == ".INI" || ext == ".BIN")
+                return (ext == ".BAS" || ext == ".CLS" || ext == ".FRM" || ext == ".INI" || ext == ".BIN" || path.ToLowerInvariant().EndsWith("customui14.xml"))
                     && modulesFound.Add(name);
             };
             return allFiles.Where(filter).ToList();

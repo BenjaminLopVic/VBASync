@@ -46,6 +46,8 @@ namespace VBASync.WPF
                     return VBASyncResources.CTProject;
                 case ChangeType.Licenses:
                     return VBASyncResources.CTLicenses;
+                case ChangeType.CustomUI:
+                    return "Custom UI";
                 default:
                     return null;
                 }

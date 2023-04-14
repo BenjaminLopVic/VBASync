@@ -14,20 +14,22 @@ namespace VBASync.Model
         {
             switch (type)
             {
-            case ModuleType.Class:
-                return ".cls";
-            case ModuleType.Form:
-                return ".frm";
-            case ModuleType.Standard:
-                return ".bas";
-            case ModuleType.StaticClass:
-                return ".cls";
-            case ModuleType.Ini:
-                return ".ini";
-            case ModuleType.Licenses:
-                return ".bin";
-            default:
-                throw new ApplicationException(VBASyncResources.ErrorUnrecognizedModuleType);
+                case ModuleType.Class:
+                    return ".cls";
+                case ModuleType.Form:
+                    return ".frm";
+                case ModuleType.Standard:
+                    return ".bas";
+                case ModuleType.StaticClass:
+                    return ".cls";
+                case ModuleType.Ini:
+                    return ".ini";
+                case ModuleType.Licenses:
+                    return ".bin";
+                case ModuleType.CustomUI:
+                    return ".xml";
+                default:
+                    throw new ApplicationException(VBASyncResources.ErrorUnrecognizedModuleType);
             }
         }
 

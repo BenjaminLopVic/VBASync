@@ -152,6 +152,37 @@ namespace VBASync.Model
             }
         }
 
+        internal static Patch GetCustomUIPatch(ISystemOperations so, ISession session, string evfPath)
+        {
+            var folderIniPath = so.PathCombine(session.FolderPath, "customUI14.xml");
+            var fileIniPath = so.PathCombine(evfPath, "customUI14.xml");
+            var folderHasIni = so.FileExists(folderIniPath);
+            var fileHasIni = so.FileExists(fileIniPath);
+            if (folderHasIni && fileHasIni)
+            {
+                if (session.Action == ActionType.Extract)
+                {
+                    return Patch.MakeCustomUIChange(so.FileReadAllText(folderIniPath, Encoding.UTF8), so.FileReadAllText(fileIniPath, Encoding.UTF8));
+                }
+                else
+                {
+                    return Patch.MakeCustomUIChange(so.FileReadAllText(fileIniPath, Encoding.UTF8), so.FileReadAllText(folderIniPath, Encoding.UTF8));
+                }
+            }
+            else if (!folderHasIni && !fileHasIni)
+            {
+                return null;
+            }
+            else if (session.Action == ActionType.Extract ? !folderHasIni : !fileHasIni)
+            {
+                return Patch.MakeInsertion("customUI14", ModuleType.CustomUI, so.FileReadAllText(session.Action == ActionType.Extract ? fileIniPath : folderIniPath, Encoding.UTF8));
+            }
+            else
+            {
+                return null; // never suggest deleting Project.INI
+            }
+        }
+
         private static bool CfStoragesAreDifferent(CFStorage s1, CFStorage s2, out string explain)
         {
             var s1Names = new List<Tuple<string, bool>>();
