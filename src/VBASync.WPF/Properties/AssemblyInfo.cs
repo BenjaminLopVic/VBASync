@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("VBA Sync Tool")]
 [assembly: AssemblyCopyright("Copyright © 2017 Chelsea Hughes")]
 
-[assembly: AssemblyVersion("2.2.2")]
+[assembly: AssemblyVersion("2.2.3")]
 
 [assembly: InternalsVisibleTo("VBASync.Tests")]
 

@@ -210,7 +210,10 @@ namespace VBASync.WPF
             }
             try
             {
-                Refresh();
+                if (_vm.IsAvailable)
+                {
+                    Refresh();
+                }
             }
             catch
             {
@@ -231,17 +234,18 @@ namespace VBASync.WPF
                 _vm.Changes = null;
                 return;
             }
+            _vm.RefreshActiveSession();
             Task.Run(() =>
             {
                 try
                 {
-                    _vm.RefreshActiveSession();
                     var changes = new ChangesViewModel(_vm.ActiveSession.GetPatches());
                     _vm.Changes = changes;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error : " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }).ContinueWith((t) =>
                 Dispatcher.Invoke(() =>
