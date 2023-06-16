@@ -884,6 +884,15 @@ namespace VBASync.Localization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Load last session at startup.
+        /// </summary>
+        public static string SWLoadLastSessionAtStartup {
+            get {
+                return ResourceManager.GetString("SWLoadLastSessionAtStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Applications.
         /// </summary>
         public static string SWOpenApplications {

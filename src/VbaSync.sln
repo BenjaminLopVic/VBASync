@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Loose files", "Loose files", "{C787BBEE-9AF4-4E60-923E-C67ECB69356F}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VBASync.WPF", "VBASync.WPF\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VBASync.Tests", "VBASync.Tests\VBASync.Tests.csproj", "{15432F02-5D62-47F7-96A7-372CBDA98D66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VBASync.Conspo", "VBASync.Conspo\VBASync.Conspo.csproj", "{FAE6A6C0-F07E-4C1C-BA23-42B2CB4115A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,8 +49,15 @@ Global
 		{15432F02-5D62-47F7-96A7-372CBDA98D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15432F02-5D62-47F7-96A7-372CBDA98D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15432F02-5D62-47F7-96A7-372CBDA98D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE6A6C0-F07E-4C1C-BA23-42B2CB4115A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE6A6C0-F07E-4C1C-BA23-42B2CB4115A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE6A6C0-F07E-4C1C-BA23-42B2CB4115A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE6A6C0-F07E-4C1C-BA23-42B2CB4115A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9E33141-9662-4081-877F-F680A0085692}
 	EndGlobalSection
 EndGlobal

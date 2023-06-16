@@ -25,9 +25,12 @@ namespace VBASync.WPF
             InitializeComponent();
 
             DataContext = _vm = new MainViewModel(startup, QuietRefreshIfInputsOk);
+            if (_vm.Settings.LoadLastSessionAtStartup)
+            {
+                _vm.LoadIni(startup.LastSessionPath);
+            }
             DataContextChanged += (s, e) => QuietRefreshIfInputsOk();
             _vm.Session.PropertyChanged += (s, e) => QuietRefreshIfInputsOk();
-            QuietRefreshIfInputsOk();
 
             // reach into SessionView because these events will not be translated into PropertyChanged
             // if our data validation blocks them

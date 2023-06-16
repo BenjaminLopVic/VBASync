@@ -12,6 +12,7 @@
         private string _language;
         private bool _portable;
         private bool _searchRepositorySubdirectories;
+        private bool _loadLastSessionAtStartup;
 
         public bool AddNewDocumentsToFile
         {
@@ -76,6 +77,12 @@
             get => _searchRepositorySubdirectories;
             set => SetField(ref _searchRepositorySubdirectories, value, nameof(SearchRepositorySubdirectories));
         }
+        
+        public bool LoadLastSessionAtStartup
+        {
+            get => _loadLastSessionAtStartup;
+            set => SetField(ref _loadLastSessionAtStartup, value, nameof(LoadLastSessionAtStartup));
+        }
 
         public SettingsViewModel Clone() => new SettingsViewModel
         {
@@ -88,7 +95,8 @@
             _ignoreEmpty = _ignoreEmpty,
             _language = _language,
             _portable = _portable,
-            _searchRepositorySubdirectories = _searchRepositorySubdirectories
+            _searchRepositorySubdirectories = _searchRepositorySubdirectories,
+            _loadLastSessionAtStartup = _loadLastSessionAtStartup,
         };
     }
 }

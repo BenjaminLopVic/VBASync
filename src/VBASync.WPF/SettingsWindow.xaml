@@ -76,6 +76,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -197,6 +198,11 @@
                         Padding="0"
                         Content="{x:Static l10n:VBASyncResources.SWDiffToolParametersHelp}"
                         Style="{StaticResource Level1Close}" />
+                    <CheckBox
+                        Grid.Row="7"
+                        Margin="3,50"
+                        Content="{x:Static l10n:VBASyncResources.SWLoadLastSessionAtStartup}"
+                        IsChecked="{Binding LoadLastSessionAtStartup}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="{x:Static l10n:VBASyncResources.SWSessionTab}">

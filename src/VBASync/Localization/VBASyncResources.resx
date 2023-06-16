@@ -429,4 +429,7 @@ File 2: {{'{2}'}}</value>
   <data name="SWSearchRepositorySubdirectories" xml:space="preserve">
     <value>Search subdirectories of VBA project folder</value>
   </data>
+  <data name="SWLoadLastSessionAtStartup" xml:space="preserve">
+    <value>Load last session at startup</value>
+  </data>
 </root>

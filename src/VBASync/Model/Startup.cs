@@ -35,6 +35,7 @@ namespace VBASync.Model
         public bool Portable { get; set; }
         public List<string> RecentFiles { get; } = new List<string>();
         public bool SearchRepositorySubdirectories { get; set; }
+        public bool LoadLastSessionAtStartup { get; set; } = true;
 
         public void ProcessArgs(string[] args)
         {
@@ -112,6 +113,7 @@ namespace VBASync.Model
             var iniLanguage = ini.GetString("General", "Language");
             var iniPortable = ini.GetBool("General", "Portable");
             var iniSearchSubdirectories = ini.GetBool("General", "SearchRepositorySubdirectories");
+            var iniLoadLastSessionAtStartup = ini.GetBool("General", "LoadLastSessionAtStartup");
 
             if (iniAction.HasValue && allowSessionSettings)
             {
@@ -181,6 +183,11 @@ namespace VBASync.Model
             if (iniSearchSubdirectories.HasValue)
             {
                 SearchRepositorySubdirectories = iniSearchSubdirectories.Value;
+            }
+
+            if (iniLoadLastSessionAtStartup.HasValue)
+            {
+                LoadLastSessionAtStartup = iniLoadLastSessionAtStartup.Value;
             }
 
             if (ini.GetString("RecentFiles", "1") != null)

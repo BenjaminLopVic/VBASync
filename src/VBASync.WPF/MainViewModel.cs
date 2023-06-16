@@ -40,7 +40,8 @@ namespace VBASync.WPF
                 IgnoreEmpty = startup.IgnoreEmpty,
                 Language = startup.Language,
                 Portable = startup.Portable,
-                SearchRepositorySubdirectories = startup.SearchRepositorySubdirectories
+                SearchRepositorySubdirectories = startup.SearchRepositorySubdirectories,
+                LoadLastSessionAtStartup = startup.LoadLastSessionAtStartup
             };
             RecentFiles = new BindingList<string>();
             foreach (var recentFile in startup.RecentFiles)
@@ -124,6 +125,14 @@ namespace VBASync.WPF
             _activeSession?.Dispose();
         }
 
+        public void LoadIni(string iniPath)
+        {
+            if (File.Exists(iniPath))
+            {
+                LoadIni(new Model.AppIniFile(iniPath));
+            }
+        }
+
         public void LoadIni(Model.AppIniFile ini)
         {
             Session.Action = ini.GetActionType("General", "ActionType") ?? Model.ActionType.Extract;
@@ -158,6 +167,7 @@ namespace VBASync.WPF
             if (saveGlobalSettings)
             {
                 sb.Append("Language=\"").Append(Settings.Language).AppendLine("\"");
+                sb.Append("LoadLastSessionAtStartup=").AppendLine(Settings.LoadLastSessionAtStartup ? "true" : "false");
                 sb.AppendLine("");
                 sb.AppendLine("[DiffTool]");
                 sb.Append("Path =\"").Append(Settings.DiffTool).AppendLine("\"");
