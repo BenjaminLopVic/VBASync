@@ -276,6 +276,7 @@
                             Click="CancelButton_Click"
                             Content="{x:Static l10n:VBASyncResources.CancelAction}" />
                         <Button x:Name="OkButton"
+                            Visibility="Collapsed"
                             Height="20"
                             MinWidth="75"
                             VerticalAlignment="Top"
