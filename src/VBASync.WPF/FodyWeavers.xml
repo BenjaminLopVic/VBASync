@@ -1,3 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers>
+	<Costura
+	  ExcludeAssemblies="ICSharpCode.SharpZipLib|OpenMcdf|System.ValueTuple|VBACompressionCodec|VBASync"
+	  IncludeDebugSymbols="false" />
 </Weavers>
