@@ -27,7 +27,7 @@ Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
 
 [Files]
 Source: "src\VBASync\bin\Release\VBASync.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\VBASync.WPF\bin\Release\VBASync.WPF.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\VBASync\bin\Release\VBASync.WPF.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "src\VBACompressionCodec.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "LICENSE.rtf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "3RDPARTY\*"; DestDir: "{app}\3RDPARTY"; Flags: ignoreversion
