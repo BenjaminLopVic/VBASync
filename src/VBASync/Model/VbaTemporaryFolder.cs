@@ -1,6 +1,5 @@
 ﻿using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using OfficeOpenXml.Utils;
 using OpenMcdf;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using VBASync.Localization;
+using OfficeOpenXml.Utils;
 
 namespace VBASync.Model
 {
